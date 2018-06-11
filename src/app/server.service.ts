@@ -16,4 +16,8 @@ export class ServerService {
     );
   }
 
+  getServers() {
+    return this.http.get('https://angular-requests.firebaseio.com/data.json');
+  }
+
 }
