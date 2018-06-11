@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -36,8 +36,17 @@ export class ServerService {
           return data;
         }
       ), catchError(
-        (error: HttpErrorResponse) => {
+        () => {
           return Observable.throw('Something went wrong!');
+        }
+      ));
+  }
+
+  getAppName() {
+    return this.http.get('https://angular-requests.firebaseio.com/appName.json')
+      .pipe(map(
+        (response: HttpResponse<any>) => {
+          return response;
         }
       ));
   }
