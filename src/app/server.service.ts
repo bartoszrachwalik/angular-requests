@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {catchError, map} from 'rxjs/operators';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class ServerService {
@@ -23,7 +25,8 @@ export class ServerService {
   }
 
   getServers() {
-    return this.http.get('https://angular-requests.firebaseio.com/data.json')
+    // line below causes error intentionally
+    return this.http.get('https://angular-requests.firebaseio.com/data')
       .pipe(map(
         (response: any[]) => {
           const data = response;
@@ -31,6 +34,10 @@ export class ServerService {
             server.name = 'FETCHED_' + server.name;
           }
           return data;
+        }
+      ), catchError(
+        (error: HttpErrorResponse) => {
+          return Observable.throw('Something went wrong!');
         }
       ));
   }
