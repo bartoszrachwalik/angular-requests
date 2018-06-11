@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {ServerService} from './server.service';
-import {HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -41,10 +40,7 @@ export class AppComponent {
 
   onGet() {
     this.serverService.getServers().subscribe(
-      (response: HttpResponse<any>) => {
-        const data = response;
-        console.log(data);
-      },
+      (servers: any[]) => console.log(servers),
       (error) => console.log(error)
     );
   }
