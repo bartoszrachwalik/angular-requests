@@ -27,6 +27,9 @@ export class ServerService {
       .pipe(map(
         (response: any[]) => {
           const data = response;
+          for (const server of data) {
+            server.name = 'FETCHED_' + server.name;
+          }
           return data;
         }
       ));
